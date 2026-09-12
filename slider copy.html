@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfect Infinite Centered Slider</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+
+        .slider-container {
+            width: 100%;
+            max-width: 1600px;
+            position: relative;
+            overflow: hidden;
+            padding-bottom: 70px;
+        }
+
+        /* --- Corner Navigation Buttons --- */
+        .nav-btn {
+            position: absolute;
+            /* Offset by 35px to perfectly center over the cards, ignoring the 70px bottom pagination space */
+            top: calc(50% - 35px);
+            transform: translateY(-50%);
+            width: 45px;
+            height: 45px;
+            background-color: #ffffff;
+            border: 3px solid #000;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #000;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav-btn:hover {
+            background-color: #000;
+            color: #ffffff;
+        }
+
+        .prev-btn {
+            left: 8vw;
+            /* Floats perfectly over the center of the left cut-off card */
+        }
+
+        .next-btn {
+            right: 8vw;
+            /* Floats perfectly over the center of the right cut-off card */
+        }
+
+
+        .slider-track {
+            display: flex;
+            gap: 20px;
+            width: max-content;
+            will-change: transform;
+        }
+
+        .card {
+            width: 28vw;
+            min-width: 280px;
+            max-width: 380px;
+            flex-shrink: 0;
+            background-color: #cecece;
+            border-radius: 20px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            background-color: #1a1a1a;
+        }
+
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #111;
+            margin-bottom: 8px;
+        }
+
+        .card-desc {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 25px;
+            flex-grow: 1;
+        }
+
+        .btn {
+            background-color: #717171;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            align-self: flex-start;
+            transition: background-color 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #555555;
+        }
+
+        /* --- Pagination Timeline --- */
+        .slider-nav {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 250px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background-color: #000;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .nav-dots {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+        }
+
+        .dot {
+            width: 18px;
+            height: 18px;
+            background-color: #ffffff;
+            border: 4px solid #000;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background-color: #000;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 950px) {
+            .card {
+                width: 45vw;
+            }
+
+            .prev-btn {
+                left: 5vw;
+            }
+
+            .next-btn {
+                right: 5vw;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                width: 75vw;
+            }
+
+            .prev-btn {
+                left: 2vw;
+            }
+
+            .next-btn {
+                right: 2vw;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="slider-container" id="sliderContainer">
+
+        <!-- Left & Right Corner Buttons -->
+        <button class="nav-btn prev-btn" id="prevBtn">&#10094;</button>
+        <button class="nav-btn next-btn" id="nextBtn">&#10095;</button>
+
+        <!-- The track handles the infinite movement -->
+        <div class="slider-track" id="sliderTrack">
+
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=600&h=400&fit=crop" alt="Room"
+                    class="card-image">
+                <div class="card-content">
+                    <h3 class="card-title">Project 1 || To Do List</h3>
+                    <p class="card-desc">this will be the discription for the project</p>
+                    <button class="btn">View More</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=600&h=400&fit=crop" alt="Room"
+                    class="card-image">
+                <div class="card-content">
+                    <h3 class="card-title">Project 2 || To Do List</h3>
+                    <p class="card-desc">this will be the discription for the project</p>
+                    <button class="btn">View More</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=600&h=400&fit=crop" alt="Room"
+                    class="card-image">
+                <div class="card-content">
+                    <h3 class="card-title">Project 3 || To Do List</h3>
+                    <p class="card-desc">this will be the discription for the project</p>
+                    <button class="btn">View More</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=600&h=400&fit=crop" alt="Room"
+                    class="card-image">
+                <div class="card-content">
+                    <h3 class="card-title">Project 4 || To Do List</h3>
+                    <p class="card-desc">this will be the discription for the project</p>
+                    <button class="btn">View More</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=600&h=400&fit=crop" alt="Room"
+                    class="card-image">
+                <div class="card-content">
+                    <h3 class="card-title">Project 5 || To Do List</h3>
+                    <p class="card-desc">this will be the discription for the project</p>
+                    <button class="btn">View More</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Custom Pagination -->
+        <div class="slider-nav">
+            <div class="nav-line"></div>
+            <div class="nav-dots" id="navDots">
+                <!-- Dots generated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <script>document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("sliderContainer");
+            const track = document.getElementById("sliderTrack");
+            const dotsContainer = document.getElementById("navDots");
+            const prevBtn = document.getElementById("prevBtn");
+            const nextBtn = document.getElementById("nextBtn");
+
+            const originalCards = Array.from(document.querySelectorAll(".card"));
+            const numOriginals = originalCards.length;
+
+            // 1. Create Navigation Dots
+            originalCards.forEach((_, index) => {
+                const dot = document.createElement("div");
+                dot.classList.add("dot");
+                if (index === 0) dot.classList.add("active");
+
+                dot.addEventListener("click", () => {
+                    goToSlide(index + numOriginals);
+                    resetAutoPlay();
+                });
+                dotsContainer.appendChild(dot);
+            });
+            const dots = document.querySelectorAll(".dot");
+
+            // 2. Clone Cards for the Infinite Loop Effect
+            const clonesStart = originalCards.map(card => card.cloneNode(true));
+            track.prepend(...clonesStart);
+
+            const clonesEnd = originalCards.map(card => card.cloneNode(true));
+            track.append(...clonesEnd);
+
+            let currentIndex = numOriginals;
+            let isTransitioning = false;
+            let autoPlayTimer;
+
+            // 3. Mathematical Centering Logic
+            function updateSlider(instant = false) {
+                const cards = track.children;
+                if (!cards[currentIndex]) return;
+
+                const card = cards[currentIndex];
+
+                // Ensure perfect centering
+                const containerCenter = container.clientWidth / 2;
+                const cardCenter = card.offsetWidth / 2;
+
+                const slidePos = card.offsetLeft;
+                const translateX = -(slidePos - containerCenter + cardCenter);
+
+                if (instant) {
+                    track.style.transition = 'none';
+                } else {
+                    track.style.transition = 'transform 0.5s ease-in-out';
+                    isTransitioning = true;
+                }
+
+                track.style.transform = `translateX(${translateX}px)`;
+
+                const activeIndex = currentIndex % numOriginals;
+                dots.forEach(dot => dot.classList.remove("active"));
+                if (dots[activeIndex]) dots[activeIndex].classList.add("active");
+            }
+
+            function goToSlide(index) {
+                if (isTransitioning) return;
+                currentIndex = index;
+                updateSlider();
+            }
+
+            function nextSlide() {
+                if (isTransitioning) return;
+                currentIndex++;
+                updateSlider();
+            }
+
+            function prevSlide() {
+                if (isTransitioning) return;
+                currentIndex--;
+                updateSlider();
+            }
+
+            // 4. Infinite Loop Jump Logic
+            track.addEventListener("transitionend", () => {
+                isTransitioning = false;
+
+                if (currentIndex >= numOriginals * 2) {
+                    currentIndex = currentIndex - numOriginals;
+                    updateSlider(true);
+                }
+                else if (currentIndex < numOriginals) {
+                    currentIndex = currentIndex + numOriginals;
+                    updateSlider(true);
+                }
+            });
+
+            // 5. Button Listeners
+            nextBtn.addEventListener("click", () => {
+                nextSlide();
+                resetAutoPlay();
+            });
+
+            prevBtn.addEventListener("click", () => {
+                prevSlide();
+                resetAutoPlay();
+            });
+
+            // 6. Auto-Play Loop
+            function startAutoPlay() {
+                autoPlayTimer = setInterval(nextSlide, 5000);
+            }
+
+            function resetAutoPlay() {
+                clearInterval(autoPlayTimer);
+                startAutoPlay();
+            }
+
+            // 7. Touch Support (Swipe Left/Right)
+            let startX = 0;
+            let endX = 0;
+
+            track.addEventListener("touchstart", (e) => {
+                startX = e.touches[0].clientX;
+                resetAutoPlay();
+            }, { passive: true });
+
+            track.addEventListener("touchend", (e) => {
+                endX = e.changedTouches[0].clientX;
+                if (startX - endX > 50) {
+                    nextSlide();
+                } else if (endX - startX > 50) {
+                    prevSlide();
+                }
+            });
+
+            // Initial load updates
+            setTimeout(() => {
+                updateSlider(true);
+                startAutoPlay();
+            }, 50);
+
+            window.addEventListener("resize", () => updateSlider(true));
+        });</script>
+</body>
+
+</html>

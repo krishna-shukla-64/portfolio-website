@@ -1,0 +1,383 @@
+/* background: hsla(0, 2%, 41%, 1);
+
+background: ;
+
+background: -moz-radial-gradient(circle, hsla(0, 2%, 41%, 1) 0%, hsla(0, 0%, 29%, 1) 36%, hsla(0, 0%, 0%, 1) 99%);
+
+background: -webkit-radial-gradient(circle, hsla(0, 2%, 41%, 1) 0%, hsla(0, 0%, 29%, 1) 36%, hsla(0, 0%, 0%, 1) 99%);
+
+filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#6B6666", endColorstr="#4A4A4A", GradientType=1 ); */
+
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: #c2c0c0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body {
+    background: radial-gradient(circle, rgb(36, 36, 36) 0%, hsla(0, 0%, 0%, 1) 100%);
+    width: 100%;
+    height: 100%;
+}
+
+
+nav {
+    width: 100%;
+    height: 90px;
+    padding: 20px;
+    opacity: 50%;
+
+
+}
+
+.nav_buttons {
+    width: clamp(300px, 50%, 700px);
+    margin: 10px auto;
+    display: flex;
+    justify-content: space-around;
+}
+
+.nav-but {
+    color: rgb(179, 176, 176);
+    text-decoration: none;
+    font-size: 14px;
+}
+
+
+/* main malakin wala code  */
+
+.first-banner {
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-areas: 'name name name name'
+        'l-txt  img img  r-txt';
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    justify-items: center;
+}
+
+/* big text for banner  */
+
+.bigFontName {
+    grid-area: name;
+    width: 90%;
+    align-self: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.namebox {
+
+    font-size: clamp(50px, 8vw, 180px);
+    font-family: "Rubik 80s Fade", system-ui;
+    color: white;
+}
+
+.bannerImg {
+    grid-area: img;
+    width: clamp(200px, 50vw, 600px);
+    transform: translateY(-90px);
+    scale: 1.1;
+}
+
+.imgRightText,
+.imgLeftText {
+    margin: auto;
+    color: azure;
+    display: flex;
+    width: 25vw;
+    position: relative;
+}
+
+.imgLeftText>div,
+.imgRightText>div {
+    font-size: 22px;
+    display: flex;
+    width: fit-content;
+    position: absolute;
+}
+
+
+.imgLeftText {
+    grid-area: l-txt;
+}
+
+.imgRightText {
+    grid-area: r-txt;
+}
+
+.al-left {
+    left: -3vw;
+
+}
+
+.al-right {
+    right: -3vw;
+}
+
+
+.changingTxtLeft,
+.changingTxtRight {
+    width: 150px;
+    background-color: #4b4b4b;
+    padding: 2px 3px;
+    border-radius: 5px;
+    display: flex;
+    font-size: 20px;
+}
+
+
+
+/* main banner done  */
+
+.my_projects {
+    width: 100%;
+    height: fit-content;
+    min-height: 500px;
+    background-color: #2e2e2e;
+    padding: 20px;
+}
+
+#h-projects {
+    width: fit-content;
+    font-size: 3vw;
+    margin: auto;
+    font-weight: bolder
+}
+
+/* codes for card  */
+
+
+/* .projects-cont {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 10px;
+    padding: 10px;
+    flex-wrap: nowrap;
+} */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap');
+
+
+
+.cardbody {
+    width: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100%;
+    overflow-x: hidden;
+    padding: 20px 0;
+}
+
+.slider-container {
+    width: 100%;
+    max-width: 1600px;
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 70px;
+}
+
+/* --- Corner Navigation Buttons --- */
+.nav-btn-card {
+    position: absolute;
+    /* Offset by 35px to perfectly center over the cards, ignoring the 70px bottom pagination space */
+    top: calc(50% - 35px);
+    transform: translateY(-50%);
+    width: 45px;
+    height: 45px;
+    background-color: #ffffff;
+    border: 3px solid #000;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #000;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    box-shadow: 5px 4px 20px 5px rgba(0, 0, 0, 0.647);
+}
+
+.nav-btn-card:hover {
+    background-color: #000;
+    color: #ffffff;
+}
+
+.prev-btn {
+    left: 10vw;
+    /* Floats perfectly over the center of the left cut-off card */
+}
+
+.next-btn {
+    right: 10vw;
+    /* Floats perfectly over the center of the right cut-off card */
+}
+
+
+/* Update just the .slider-track in your style.css */
+.slider-track {
+    display: flex;
+    gap: 20px;
+    width: max-content; 
+    will-change: transform; 
+    
+    /* NEW: Hide the track on initial load to prevent glitching */
+    opacity: 0; 
+    transition: opacity 0.4s ease-in-out;
+}
+
+/* NEW: JavaScript will add this class once perfectly centered */
+.slider-track.loaded {
+    opacity: 1; 
+}
+
+.procard {
+    width: 22vw;
+    min-width: 280px;
+    max-width: 380px;
+    flex-shrink: 0;
+    background-color: #666666;
+    border-radius: 20px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+}
+
+.procard:hover{
+    scale: 1.04;
+    transform: translateY(10px);
+}
+
+.card-image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    background-color: #1a1a1a;
+    scale: 1.04;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #111;
+    margin-bottom: 8px;
+}
+
+.card-desc {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #252525;
+    margin-bottom: 25px;
+    flex-grow: 1;
+    text-align: justify;
+    padding: 2px;
+}
+
+.btn {
+    background-color: #242424;
+    color: rgb(187, 187, 187);
+    border: none;
+    padding: 10px 25px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    align-self: center;
+    transition: background-color 0.2s;
+}
+
+.btn:hover {
+    background-color: #555555;
+    color: #000;
+}
+
+/* --- Pagination Timeline --- */
+.slider-nav {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 250px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.nav-line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background-color: #000;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.nav-dots {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    z-index: 2;
+}
+
+.dot {
+    width: 18px;
+    height: 18px;
+    background-color: #ffffff;
+    border: 4px solid #000;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dot.active {
+    background-color: #000;
+}
+
+/* Responsive adjustments */
+@media (max-width: 950px) {
+    .card {
+        width: 45vw;
+    }
+
+    .prev-btn {
+        left: 5vw;
+    }
+
+    .next-btn {
+        right: 5vw;
+    }
+}
+
+@media (max-width: 600px) {
+    .card {
+        width: 75vw;
+    }
+
+    .prev-btn {
+        left: 2vw;
+    }
+
+    .next-btn {
+        right: 2vw;
+    }
+}
