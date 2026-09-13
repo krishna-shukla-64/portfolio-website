@@ -30,13 +30,16 @@ setInterval(() => {
 
 // script for my projects card 
 
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
     const container = document.getElementById("sliderContainer");
     const track = document.getElementById("sliderTrack");
     const dotsContainer = document.getElementById("navDots");
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
-
+    
     const originalCards = Array.from(document.querySelectorAll(".procard"));
     const numOriginals = originalCards.length;
 
@@ -45,9 +48,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const dot = document.createElement("div");
         dot.classList.add("dot");
         if (index === 0) dot.classList.add("active");
-
+        
         dot.addEventListener("click", () => {
-            goToSlide(index + numOriginals);
+            goToSlide(index + numOriginals); 
             resetAutoPlay();
         });
         dotsContainer.appendChild(dot);
@@ -57,47 +60,63 @@ document.addEventListener("DOMContentLoaded", () => {
     // 2. Clone Cards for the Infinite Loop Effect
     const clonesStart = originalCards.map(card => card.cloneNode(true));
     track.prepend(...clonesStart);
-
+    
     const clonesEnd = originalCards.map(card => card.cloneNode(true));
     track.append(...clonesEnd);
 
-    // Start index perfectly on the first original card (middle of the clones)
-    let currentIndex = numOriginals;
+    let currentIndex = numOriginals; 
     let isTransitioning = false;
     let autoPlayTimer;
+    let transitionTimeout;
 
     // 3. Mathematical Centering Logic
     function updateSlider(instant = false) {
         const cards = track.children;
         if (!cards[currentIndex]) return;
-
+        
         const card = cards[currentIndex];
-
-        // Grab dynamic widths
-        // Get exact decimal widths for high-DPI mobile screens
-        const cardWidth = card.getBoundingClientRect().width;
+        const cardWidth = card.getBoundingClientRect().width; // Exact mobile decimals
         const gap = parseFloat(window.getComputedStyle(track).gap) || 20;
-
-        // MATHEMATICAL FIX: Calculate position by multiplying index instead of using offsets
-        // This ensures the position is always calculated perfectly even if images are slow to load
+        
         const slidePos = currentIndex * (cardWidth + gap);
-
         const containerCenter = container.clientWidth / 2;
         const cardCenter = cardWidth / 2;
         const translateX = -(slidePos - containerCenter + cardCenter);
 
+        // Clear any stuck timeouts
+        clearTimeout(transitionTimeout);
+
         if (instant) {
             track.style.transition = 'none';
+            track.style.transform = `translateX(${translateX}px)`;
+            isTransitioning = false; // MUST UNLOCK HERE
         } else {
             track.style.transition = 'transform 0.5s ease-in-out';
+            track.style.transform = `translateX(${translateX}px)`;
             isTransitioning = true;
+            
+            // BULLETPROOF UNLOCK: Force unlock exactly when animation ends
+            transitionTimeout = setTimeout(() => {
+                isTransitioning = false;
+                checkInfiniteLoop(); // Check if we need to silently reset position
+            }, 500); // 500ms matches the 0.5s CSS transition
         }
-
-        track.style.transform = `translateX(${translateX}px)`;
 
         const activeIndex = currentIndex % numOriginals;
         dots.forEach(dot => dot.classList.remove("active"));
         if (dots[activeIndex]) dots[activeIndex].classList.add("active");
+    }
+
+    // 4. Infinite Loop Jump Logic
+    function checkInfiniteLoop() {
+        if (currentIndex >= numOriginals * 2) {
+            currentIndex = currentIndex - numOriginals;
+            updateSlider(true); 
+        } 
+        else if (currentIndex < numOriginals) {
+            currentIndex = currentIndex + numOriginals;
+            updateSlider(true); 
+        }
     }
 
     function goToSlide(index) {
@@ -118,32 +137,21 @@ document.addEventListener("DOMContentLoaded", () => {
         updateSlider();
     }
 
-    // 4. Infinite Loop Jump Logic
-    track.addEventListener("transitionend", () => {
-        isTransitioning = false;
-
-        // Instantly jump backward if we hit the end clones
-        if (currentIndex >= numOriginals * 2) {
-            currentIndex = currentIndex - numOriginals;
-            updateSlider(true);
-        }
-        // Instantly jump forward if we hit the start clones
-        else if (currentIndex < numOriginals) {
-            currentIndex = currentIndex + numOriginals;
-            updateSlider(true);
-        }
-    });
-
     // 5. Button Listeners
-    nextBtn.addEventListener("click", () => {
-        nextSlide();
-        resetAutoPlay();
-    });
+    // Added safety check in case buttons are clicked before slider initializes
+    if (nextBtn) {
+        nextBtn.addEventListener("click", () => {
+            nextSlide();
+            resetAutoPlay();
+        });
+    }
 
-    prevBtn.addEventListener("click", () => {
-        prevSlide();
-        resetAutoPlay();
-    });
+    if (prevBtn) {
+        prevBtn.addEventListener("click", () => {
+            prevSlide();
+            resetAutoPlay();
+        });
+    }
 
     // 6. Auto-Play Loop
     function startAutoPlay() {
@@ -166,21 +174,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     track.addEventListener("touchend", (e) => {
         endX = e.changedTouches[0].clientX;
+        // Swipe threshold lowered to 30px for better mobile feel
         if (startX - endX > 30) {
-            nextSlide();
+            nextSlide(); 
         } else if (endX - startX > 30) {
             prevSlide();
         }
     });
 
     // 8. Initialization 
-    // Wait until ALL images and fonts are loaded before revealing the slider
     window.addEventListener("load", () => {
         updateSlider(true);
-        track.classList.add("loaded"); // Triggers CSS opacity fade-in
+        track.classList.add("loaded"); 
         startAutoPlay();
     });
 
-    // Keep perfectly centered if user resizes window
-    window.addEventListener("resize", () => updateSlider(true));
+    window.addEventListener("resize", () => {
+        updateSlider(true); // instant update resets locks safely now
+    });
 });
