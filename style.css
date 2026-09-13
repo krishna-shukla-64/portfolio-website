@@ -122,12 +122,14 @@ nav {
 
 .changingTxtLeft,
 .changingTxtRight {
-    width: 150px;
+    width: 160px;
     background-color: #4b4b4b;
     padding: 2px 3px;
     border-radius: 5px;
     display: flex;
     font-size: 20px;
+    color: #000000;
+    font-weight: bolder;
 }
 
 
@@ -139,14 +141,14 @@ nav {
     height: fit-content;
     min-height: 500px;
     background-color: #2e2e2e;
-    padding: 20px;
+    padding: 80px 5px;
 }
 
-#h-projects {
+#h-projects, #h-skills {
     width: fit-content;
     font-size: 3vw;
     margin: auto;
-    font-weight: bolder
+    font-weight: bolder;
 }
 
 /* codes for card  */
@@ -381,3 +383,54 @@ nav {
         right: 2vw;
     }
 }
+
+
+/* skills and expertise code  */
+
+.skills-expertise{
+    width: 100%;
+    height: fit-content;
+    min-height: 200px;
+    padding: 80px;
+}
+
+.skill-cont{
+    width: 90%;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 40px 0;
+}
+
+.skill-card:hover{
+    scale: 1.1;
+    transform: translate(0px, -10px);
+}
+
+.skill-card{
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 15px;
+    transition: all 0.2s ease;
+}
+
+footer{
+    min-height: 100px;
+    background-color: rgb(92, 92, 92);
+    padding: auto;
+    display: flex;
+    align-items: end;
+    padding: 10px;
+    justify-content: center;
+    color: #000;
+    font-weight: 900;
+    font-size: 20px;
+    text-shadow: 2px 2px 3px rgb(171, 171, 171);
+    border: 1px solid;
+}
+
+
