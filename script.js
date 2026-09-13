@@ -1,5 +1,5 @@
-let GD = [  "Captivating","Remarkable","Seamless","Exceptional","Elegant","Extraordinary", "Beautiful", "Professional", "Eye-Catching"]
-let SD = ["Without Bugs", "Effortlessly","Remarkably","Exceptionally","Responsively","Consistently","Flawlessly", "Non stop", "Effectively"]
+let GD = ["Captivating", "Remarkable", "Seamless", "Exceptional", "Elegant", "Extraordinary", "Beautiful", "Professional", "Eye-Catching"]
+let SD = ["Without Bugs", "Effortlessly", "Remarkably", "Exceptionally", "Responsively", "Consistently", "Flawlessly", "Non stop", "Effectively"]
 
 
 
@@ -10,7 +10,7 @@ let index1 = 0;
 setInterval(() => {
     code = GD[index1]
     targetElem1.innerHTML = code
-    index1= (index1+1)%GD.length
+    index1 = (index1 + 1) % GD.length
 }, 1300);
 
 
@@ -22,7 +22,7 @@ let index2 = 0;
 setInterval(() => {
     code = SD[index2]
     targetElem2.innerHTML = code;
-    index2= (index2+1)%SD.length;
+    index2 = (index2 + 1) % SD.length;
 }, 1600);
 
 
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const dotsContainer = document.getElementById("navDots");
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
-    
+
     const originalCards = Array.from(document.querySelectorAll(".procard"));
     const numOriginals = originalCards.length;
 
@@ -45,9 +45,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const dot = document.createElement("div");
         dot.classList.add("dot");
         if (index === 0) dot.classList.add("active");
-        
+
         dot.addEventListener("click", () => {
-            goToSlide(index + numOriginals); 
+            goToSlide(index + numOriginals);
             resetAutoPlay();
         });
         dotsContainer.appendChild(dot);
@@ -57,12 +57,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // 2. Clone Cards for the Infinite Loop Effect
     const clonesStart = originalCards.map(card => card.cloneNode(true));
     track.prepend(...clonesStart);
-    
+
     const clonesEnd = originalCards.map(card => card.cloneNode(true));
     track.append(...clonesEnd);
 
     // Start index perfectly on the first original card (middle of the clones)
-    let currentIndex = numOriginals; 
+    let currentIndex = numOriginals;
     let isTransitioning = false;
     let autoPlayTimer;
 
@@ -70,17 +70,18 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateSlider(instant = false) {
         const cards = track.children;
         if (!cards[currentIndex]) return;
-        
+
         const card = cards[currentIndex];
-        
+
         // Grab dynamic widths
-        const cardWidth = card.offsetWidth;
+        // Get exact decimal widths for high-DPI mobile screens
+        const cardWidth = card.getBoundingClientRect().width;
         const gap = parseFloat(window.getComputedStyle(track).gap) || 20;
-        
+
         // MATHEMATICAL FIX: Calculate position by multiplying index instead of using offsets
         // This ensures the position is always calculated perfectly even if images are slow to load
         const slidePos = currentIndex * (cardWidth + gap);
-        
+
         const containerCenter = container.clientWidth / 2;
         const cardCenter = cardWidth / 2;
         const translateX = -(slidePos - containerCenter + cardCenter);
@@ -91,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
             track.style.transition = 'transform 0.5s ease-in-out';
             isTransitioning = true;
         }
-        
+
         track.style.transform = `translateX(${translateX}px)`;
 
         const activeIndex = currentIndex % numOriginals;
@@ -120,16 +121,16 @@ document.addEventListener("DOMContentLoaded", () => {
     // 4. Infinite Loop Jump Logic
     track.addEventListener("transitionend", () => {
         isTransitioning = false;
-        
+
         // Instantly jump backward if we hit the end clones
         if (currentIndex >= numOriginals * 2) {
             currentIndex = currentIndex - numOriginals;
-            updateSlider(true); 
-        } 
+            updateSlider(true);
+        }
         // Instantly jump forward if we hit the start clones
         else if (currentIndex < numOriginals) {
             currentIndex = currentIndex + numOriginals;
-            updateSlider(true); 
+            updateSlider(true);
         }
     });
 
@@ -165,9 +166,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     track.addEventListener("touchend", (e) => {
         endX = e.changedTouches[0].clientX;
-        if (startX - endX > 50) {
-            nextSlide(); 
-        } else if (endX - startX > 50) {
+        if (startX - endX > 30) {
+            nextSlide();
+        } else if (endX - startX > 30) {
             prevSlide();
         }
     });
