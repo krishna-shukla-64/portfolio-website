@@ -1,13 +1,5 @@
-/* background: hsla(0, 2%, 41%, 1);
 
-background: ;
-
-background: -moz-radial-gradient(circle, hsla(0, 2%, 41%, 1) 0%, hsla(0, 0%, 29%, 1) 36%, hsla(0, 0%, 0%, 1) 99%);
-
-background: -webkit-radial-gradient(circle, hsla(0, 2%, 41%, 1) 0%, hsla(0, 0%, 29%, 1) 36%, hsla(0, 0%, 0%, 1) 99%);
-
-filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#6B6666", endColorstr="#4A4A4A", GradientType=1 ); */
-
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap');
 
 
 * {
@@ -17,14 +9,22 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#6B6666", en
     color: #c2c0c0;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+:root{
+    /* color for alternate boxes  */
+    --color1:rgb(54, 54, 54);
 
+    --color2:rgb(18, 17, 17);
+}
 body {
-    background: radial-gradient(circle, rgb(36, 36, 36) 0%, hsla(0, 0%, 0%, 1) 100%);
+    background-color: var(--color2);
     width: 100%;
     height: 100%;
 }
 
-
+.gradient{
+    background: radial-gradient(circle, rgb(36, 36, 36) 0%, hsla(0, 0%, 0%, 1) 100%);
+    padding-bottom: 70px;
+}
 nav {
     width: 100%;
     height: 90px;
@@ -64,7 +64,7 @@ nav {
 
 .bigFontName {
     grid-area: name;
-    width: 90%;
+    width: 95%;
     align-self: center;
     display: flex;
     justify-content: space-between;
@@ -136,12 +136,13 @@ nav {
 
 /* main banner done  */
 
+/* card codes starts from here  */
 .my_projects {
     width: 100%;
     height: fit-content;
     min-height: 500px;
-    background-color: #2e2e2e;
-    padding: 80px 5px;
+    background-color:var(--color1);
+    padding: 15px 5px;
 }
 
 #h-projects, #h-skills {
@@ -154,15 +155,8 @@ nav {
 /* codes for card  */
 
 
-/* .projects-cont {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 10px;
-    padding: 10px;
-    flex-wrap: nowrap;
-} */
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap');
+
 
 
 
@@ -245,8 +239,9 @@ nav {
     width: 22vw;
     min-width: 280px;
     max-width: 380px;
+    height: 450px;
     flex-shrink: 0;
-    background-color: #666666;
+    background-color: #161616;
     border-radius: 20px;
     padding: 18px;
     display: flex;
@@ -278,14 +273,14 @@ nav {
 .card-title {
     font-size: 1.25rem;
     font-weight: 800;
-    color: #111;
+    color: #cbcbcb;
     margin-bottom: 8px;
 }
 
 .card-desc {
     font-size: 1rem;
     font-weight: 700;
-    color: #252525;
+    color: #5b5b5b;
     margin-bottom: 25px;
     flex-grow: 1;
     text-align: justify;
@@ -388,6 +383,7 @@ nav {
 /* skills and expertise code  */
 
 .skills-expertise{
+
     width: 100%;
     height: fit-content;
     min-height: 200px;
@@ -420,17 +416,17 @@ nav {
 
 footer{
     min-height: 100px;
-    background-color: rgb(92, 92, 92);
+    background-color:black;
     padding: auto;
     display: flex;
     align-items: end;
     padding: 10px;
     justify-content: center;
-    color: #000;
+    color: #d1d1d1;
     font-weight: 900;
     font-size: 20px;
-    text-shadow: 2px 2px 3px rgb(171, 171, 171);
-    border: 1px solid;
+    text-shadow: 2px 2px 3px rgb(127, 127, 127);
+    border: 1px solid --color2;
 }
 
 

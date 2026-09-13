@@ -1,5 +1,5 @@
-let GD = [  "Sexy","Great", "Beautiful", "Professional", "Eye-Catching"]
-let SD = ["Without Bugs", "Flawlessly", "Non stop", "Effectively"]
+let GD = [  "Captivating","Remarkable","Seamless","Exceptional","Elegant","Extraordinary", "Beautiful", "Professional", "Eye-Catching"]
+let SD = ["Without Bugs", "Effortlessly","Remarkably","Exceptionally","Responsively","Consistently","Flawlessly", "Non stop", "Effectively"]
 
 
 
